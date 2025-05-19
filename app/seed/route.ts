@@ -118,10 +118,10 @@ export async function GET() {
   try {
     const result = await sql.begin((sql) => [
       testConnection(),
-      seedUsers(),
-      seedCustomers(),
-      seedInvoices(),
-      seedRevenue(),
+      // seedUsers(),
+      // seedCustomers(),
+      // seedInvoices(),
+      // seedRevenue(),
     ]);
 
     return Response.json({ message: 'Database seeded successfully' });
