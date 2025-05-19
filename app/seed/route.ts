@@ -6,6 +6,17 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: {
   rejectUnauthorized: false
 } });
 
+async function testConnection() {
+  try {
+    const result = await sql`SELECT 1`
+    console.log('✅ Conexión exitosa:', result)
+  } catch (error) {
+    console.error('❌ Error de conexión:', error)
+  } finally {
+    await sql.end()
+  }
+}
+
 async function seedUsers() {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
@@ -106,6 +117,7 @@ async function seedRevenue() {
 export async function GET() {
   try {
     const result = await sql.begin((sql) => [
+      testConnection(),
       seedUsers(),
       seedCustomers(),
       seedInvoices(),
